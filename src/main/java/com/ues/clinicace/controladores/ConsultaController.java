@@ -51,12 +51,25 @@ public class ConsultaController {
                         c.getFechaConsulta(),
                         c.getHoraConsulta()
                 );
+                /*MEDICO*/
                 Link medicoLink =  linkTo(methodOn(MedicoController.class)
                         .medicoById(c.getMedico().getIdMedico())).withSelfRel();
                 consultaDTO.add(medicoLink);
+                /*PACIENTE*/
+                Link pacienteLink =  linkTo(methodOn(PacienteController.class)
+                        .pacienteById(c.getPaciente().getIdPaciente())).withSelfRel();
+                consultaDTO.add(pacienteLink);
+                /*ESPECIALIDAD*/
+                Link espeLink =  linkTo(methodOn(EspecialidadController.class)
+                        .especilidadById(c.getEspecialidad().getIdEspecialidad())).withSelfRel();
+                consultaDTO.add(espeLink);
+
+
                 listConsultaDTO.add(consultaDTO);
             });
         }
         return new ResponseEntity<List<ConsultaDTO>>(listConsultaDTO, HttpStatus.OK);
     }
+
+
 }
