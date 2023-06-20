@@ -35,16 +35,13 @@ public class ConsultaController {
     private Consulta consulta;
     private Especialidad especialidad;
     private Paciente paciente;
-
+    @Autowired
     public ConsultaController(IConsultaService consultaService, IMedicoService medicoService, IEspecialidadService especialidadService, IPacienteService pacienteService) {
         this.consultaService = consultaService;
         this.medicoService = medicoService;
         this.especialidadService = especialidadService;
         this.pacienteService = pacienteService;
     }
-
-    @Autowired
-
 
     @GetMapping("/hateos")
     public ResponseEntity<List<ConsultaDTO>> getAllHateosConsulta() {
