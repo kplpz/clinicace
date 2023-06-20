@@ -7,13 +7,16 @@ import com.ues.clinicace.servicio.IConsultaService;
 import com.ues.clinicace.servicio.IEspecialidadService;
 import com.ues.clinicace.servicio.IMedicoService;
 import com.ues.clinicace.servicio.IPacienteService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -161,5 +164,10 @@ public class ConsultaController {
 
             }
             return new ResponseEntity<ConsultaDTO>(consultaDTO, HttpStatus.OK);
+        }
+
+        @GetMapping( "/pdf")
+    private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response) throws IOException{
+        this.consultaService.generarReportePorConsulta(response);
         }
 }

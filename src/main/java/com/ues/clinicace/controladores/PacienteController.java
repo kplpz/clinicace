@@ -5,6 +5,8 @@ import com.ues.clinicace.modelo.Medico;
 import com.ues.clinicace.modelo.Paciente;
 import com.ues.clinicace.servicio.IMedicoService;
 import com.ues.clinicace.servicio.IPacienteService;
+import com.ues.clinicace.servicioImpl.ReportesServiceEXCELImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,11 @@ import java.util.Optional;
 public class PacienteController {
 
     private final IPacienteService servicioPaciente;
+    private final ReportesServiceEXCELImpl reportesServiceEXCEL;
     @Autowired
-    public PacienteController(IPacienteService servicioPaciente) {
+    public PacienteController(IPacienteService servicioPaciente, ReportesServiceEXCELImpl reportesServiceEXCEL) {
         this.servicioPaciente = servicioPaciente;
+        this.reportesServiceEXCEL = reportesServiceEXCEL;
     }
 
     @GetMapping
@@ -77,5 +81,15 @@ public class PacienteController {
             resp.setMessage("Fallo - No hay nada que eliminar");
         }
         return new ResponseEntity<GenericResponse<Paciente>>(resp,http);
+    }
+
+    @GetMapping("/excel")
+    public void generateExcelReport(HttpServletResponse response) throws Exception{
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachmen;filename=pacientes.xls";
+        response.setHeader(headerKey, headerValue);
+        reportesServiceEXCEL.generateExcel(response);
+        response.flushBuffer();
     }
 }
