@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/consulta")
 public class ConsultaController {
@@ -44,6 +44,11 @@ public class ConsultaController {
         this.medicoService = medicoService;
         this.especialidadService = especialidadService;
         this.pacienteService = pacienteService;
+    }
+    @GetMapping
+    public ResponseEntity<List<Consulta>> mostrarMedicos() {
+        List<Consulta> consultas = this.consultaService.listar();
+        return new ResponseEntity<List<Consulta>>(consultas, HttpStatus.OK);
     }
 
     @GetMapping("/hateos")
@@ -145,7 +150,7 @@ public class ConsultaController {
             return new ResponseEntity<GenericResponse<Consulta>>(resp, HttpStatus.OK);
         }
 
-        @GetMapping
+        /*@GetMapping
         public ResponseEntity<ConsultaDTO> consultaById(@PathVariable("id") Integer id){
             Consulta consulta = this.consultaService.leerPorId(id);
             ConsultaDTO consultaDTO=null;
@@ -164,8 +169,8 @@ public class ConsultaController {
 
             }
             return new ResponseEntity<ConsultaDTO>(consultaDTO, HttpStatus.OK);
-        }
-
+        }*/
+        @CrossOrigin(origins = "http://localhost:4200")
         @GetMapping( "/pdf")
     private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response) throws IOException{
         this.consultaService.generarReportePorConsulta(response);
