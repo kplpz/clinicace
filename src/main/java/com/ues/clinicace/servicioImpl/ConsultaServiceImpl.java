@@ -61,9 +61,24 @@ public class ConsultaServiceImpl implements IConsultaService {
         }
     }
 
-    @Override
+    /*@Override
     public void generarReportePorConsulta(HttpServletResponse response) throws IOException {
         final InputStream inputStream = this.getClass().getResourceAsStream("/reports/ClinicaMedicaxEspecialidad.jrxml");
         this.servicioReportes.generarReporte(inputStream, response, consultaRepo.totalConsultasPacientes());
+    }*/
+
+    @Override
+    public void generarReportePorConsulta(HttpServletResponse response, int idEspecialidadParam, String fechaConsultaParam) throws IOException {
+        final InputStream inputStream = this.getClass().getResourceAsStream("/reports/ConsultaMedicaEspecifica.jrxml");
+        this.servicioReportes.generarReporte(inputStream, response, consultaRepo.totalConsultasEspe(
+                idEspecialidadParam, fechaConsultaParam
+        ));
+    }
+
+    @Override
+    public void generarReportePorConsultaGraficoBarra(HttpServletResponse response) throws Exception {
+        final InputStream stream = this.getClass().getResourceAsStream("/reports/CantidadConsultasAtendidasPorEspecialidad.jrxml");
+        this.servicioReportes.generarReporte(stream, response, consultaRepo.cantidadConsultaPorEspecialidadGrafBarras());
+
     }
 }

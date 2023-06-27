@@ -1,8 +1,6 @@
 package com.ues.clinicace.servicioImpl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +18,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.util.ResourceUtils;
 
 @Service
 public class ReportesServicePDFImpl<T> implements IReportesServicePDF<T> {
@@ -31,6 +30,16 @@ public class ReportesServicePDFImpl<T> implements IReportesServicePDF<T> {
             final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(data);
             final Map<String, Object> parameters = new HashMap<>();
             parameters.put("createdBy", "Admin");
+
+            /**************************************************/
+            //CON PARAMETROS DE idEspecialidad y fechaConsulta
+            final File imgLogo = ResourceUtils.getFile("classpath:images/logobufmpues.jpg");
+            parameters.put("idEspecialidadParam", "idEspecialidadParam");
+            parameters.put("fechaConsultaParam", "fechaConsultParam");
+            parameters.put("imgLogo", new FileInputStream(imgLogo));
+
+
+
             final JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, source);
             response.setContentType("application/x-pdf");
             response.setHeader("Content-disposition", "inline; filename=App_report_en.pdf");

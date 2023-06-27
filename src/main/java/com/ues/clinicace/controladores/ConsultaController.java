@@ -170,9 +170,14 @@ public class ConsultaController {
             }
             return new ResponseEntity<ConsultaDTO>(consultaDTO, HttpStatus.OK);
         }*/
-        @CrossOrigin(origins = "http://localhost:4200")
         @GetMapping( "/pdf")
-    private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response) throws IOException{
-        this.consultaService.generarReportePorConsulta(response);
+    private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response,
+        @RequestParam int idEspecialidadParam, @RequestParam String fechaConsultaParam) throws IOException{
+        this.consultaService.generarReportePorConsulta(response, idEspecialidadParam, fechaConsultaParam);
         }
+    @GetMapping( "report/pdf")
+    private  void consultaCantidad(ModelAndView model, HttpServletResponse response) throws Exception {
+            this.consultaService.generarReportePorConsultaGraficoBarra(response);
+    }
+
 }
