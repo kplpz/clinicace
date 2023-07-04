@@ -101,7 +101,6 @@ public class ConsultaController {
             this.consulta.setEspecialidad(this.especialidadService.leerPorId(consultaDtoIN.getIdEspecialidad()));
             this.consulta.setPaciente((this.pacienteService.leerPorId(consultaDtoIN.getIdPaciente())));
             this.consulta.setFechaConsulta(consultaDtoIN.getFechaConsulta());
-            this.consulta.setFechaConsulta(consultaDtoIN.getFechaConsulta());
             this.consulta.setHoraConsulta(consultaDtoIN.getHoraConsulta());
             this.consulta.setNumConsultorio(consultaDtoIN.getNumConsultorio());
 
@@ -150,7 +149,40 @@ public class ConsultaController {
             return new ResponseEntity<GenericResponse<Consulta>>(resp, HttpStatus.OK);
         }
 
-        /*@GetMapping
+        @PutMapping("/modificar")
+        public ResponseEntity<GenericResponse<ConsultaDtoIN>> editarConsulta(@RequestParam ConsultaDtoIN consultaDtoIN){
+        HttpStatus http = HttpStatus.INTERNAL_SERVER_ERROR;
+        GenericResponse<ConsultaDtoIN> resp = new GenericResponse<>(0,
+                "ERROR DE ALMACENAMIENTO DE LA CONSULTA", consultaDtoIN);
+            Optional<ConsultaDtoIN> opt = Optional.of(consultaDtoIN);
+            if (opt.isPresent()) {
+                this.medico = new Medico();
+                this.especialidad = new Especialidad();
+                this.paciente = new Paciente();
+                this.consulta = new Consulta();
+                this.consulta.setMedico(this.medicoService.leerPorId(consultaDtoIN.getIdMedico()));
+                this.consulta.setEspecialidad(this.especialidadService.leerPorId(consultaDtoIN.getIdEspecialidad()));
+                this.consulta.setPaciente((this.pacienteService.leerPorId(consultaDtoIN.getIdPaciente())));
+                this.consulta.setFechaConsulta(consultaDtoIN.getFechaConsulta());
+                this.consulta.setHoraConsulta(consultaDtoIN.getHoraConsulta());
+                this.consulta.setNumConsultorio(consultaDtoIN.getNumConsultorio());
+                if (consultaDtoIN.getDetalleConsulta().size() > 0) {
+                    consultaDtoIN.getDetalleConsulta().stream().peek(d -> d.setConsulta(consulta))
+                            .collect(Collectors.toList());
+                    try {
+                        this.consultaService.modificar(consulta);
+                        resp.setCode(1);
+                        resp.setMessage("Exito - Consulta modificada EXITOSAMENTE !!");
+                        http = HttpStatus.OK;
+                    } catch (Exception e) {
+// TODO: handle exception
+                        System.out.println(e.getMessage());
+                    }
+                    }
+                }
+                return new ResponseEntity<GenericResponse<ConsultaDtoIN>>(resp, http);
+        }
+        @GetMapping("/{id}")
         public ResponseEntity<ConsultaDTO> consultaById(@PathVariable("id") Integer id){
             Consulta consulta = this.consultaService.leerPorId(id);
             ConsultaDTO consultaDTO=null;
@@ -169,7 +201,7 @@ public class ConsultaController {
 
             }
             return new ResponseEntity<ConsultaDTO>(consultaDTO, HttpStatus.OK);
-        }*/
+        }
         @GetMapping( "/pdfparam")
     private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response,
         @RequestParam int idEspecialidadParam, @RequestParam String fechaConsultaParam) throws IOException{

@@ -30,7 +30,4 @@ public class ConsultaDtoIN {
     private LocalDateTime fechaConsulta;
     private LocalTime horaConsulta;
     private List<DetalleConsulta> detalleConsulta;
-
-
 }
-
