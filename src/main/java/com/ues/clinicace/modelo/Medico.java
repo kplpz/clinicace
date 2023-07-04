@@ -19,4 +19,10 @@ public class Medico {
     private String nombreMedico;
     private String apellidoMedico;
     private String jvpm;
+
+
+    public String getNombreCompletoMedico(){
+        return  this.nombreMedico != null && this.nombreMedico != null ?
+                this.nombreMedico + " " + this.apellidoMedico: "------";
+    }
 }

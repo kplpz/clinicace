@@ -20,7 +20,7 @@ public class ConsultaServiceImpl implements IConsultaService {
     private final IConsultaRepo consultaRepo;
     private final IReportesServicePDF servicioReportes;
 
-    // @RequiredArgsConstructor ESTO SUSTITUYE A @Autowired
+    // @RequiredArgsConstructor ESTO SUSTITUYE A Autowired
 	/*
 	@Autowired
 	public ConsultaServiceImpl(IConsultaRepo consultaRepo) {
@@ -61,19 +61,26 @@ public class ConsultaServiceImpl implements IConsultaService {
         }
     }
 
-    /*@Override
+    @Override
     public void generarReportePorConsulta(HttpServletResponse response) throws IOException {
         final InputStream inputStream = this.getClass().getResourceAsStream("/reports/ClinicaMedicaxEspecialidad.jrxml");
         this.servicioReportes.generarReporte(inputStream, response, consultaRepo.totalConsultasPacientes());
-    }*/
+    }
 
     @Override
-    public void generarReportePorConsulta(HttpServletResponse response, int idEspecialidadParam, String fechaConsultaParam) throws IOException {
+    public void generarReportePorConsultaParam(HttpServletResponse response, int idEspecialidadParam, String fechaConsultaParam) throws IOException {
         final InputStream inputStream = this.getClass().getResourceAsStream("/reports/ConsultaMedicaEspecifica.jrxml");
         this.servicioReportes.generarReporte(inputStream, response, consultaRepo.totalConsultasEspe(
                 idEspecialidadParam, fechaConsultaParam
         ));
     }
+
+    @Override
+    public void generarReportePornumConsultaParam(HttpServletResponse response, int numConsultorio) throws IOException {
+        final InputStream inputStream = this.getClass().getResourceAsStream("/reports/numConsultorioParam.jrxml");
+        this.servicioReportes.generarReportenumConsultorioParam(inputStream, response, consultaRepo.numConsultorip(numConsultorio));
+    }
+
 
     @Override
     public void generarReportePorConsultaGraficoBarra(HttpServletResponse response) throws Exception {

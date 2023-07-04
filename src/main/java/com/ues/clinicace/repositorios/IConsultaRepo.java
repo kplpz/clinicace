@@ -1,7 +1,7 @@
 package com.ues.clinicace.repositorios;
 
-import com.ues.clinicace.dtos.IConsMedicoDtoRep;
-import com.ues.clinicace.dtos.ITotalConsultasMedicasPorEspecReporteDTO;
+import com.ues.clinicace.reportesDtos.IConsMedicoDtoRep;
+import com.ues.clinicace.reportesDtos.ITotalConsultasMedicasPorEspecReporteDTO;
 import com.ues.clinicace.modelo.Consulta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface IConsultaRepo extends JpaRepository<Consulta, Integer> {
     /* SQL nativo para las consultas médicas */
-    /*@Query(value=
+    @Query(value=
     "SELECT consulta.fecha_consulta as fechaConsulta,\n" +
             "consulta.hora_consulta as horaConsulta, consulta.num_consultorio as\n" +
             "numConsultorio, especialidad.nombre_especiadad as nombreEspecialidad,\n" +
@@ -25,7 +25,8 @@ public interface IConsultaRepo extends JpaRepository<Consulta, Integer> {
             "medico.id_medico INNER JOIN paciente ON consulta.id_paciente =\n" +
             "paciente.id_paciente ORDER BY\n" +
             "especialidad.nombre_especiadad", nativeQuery=true
-    )*/
+    )
+    List<IConsMedicoDtoRep> totalConsultasPacientes();
 
     @Query(value=
             "SELECT especialidad.id_especialidad as codigoEspecialidad, \n" +
@@ -51,5 +52,25 @@ public interface IConsultaRepo extends JpaRepository<Consulta, Integer> {
                     "e.id_especialidad ORDER BY e.id_especialidad DESC", nativeQuery = true
     )
     List<ITotalConsultasMedicasPorEspecReporteDTO> cantidadConsultaPorEspecialidadGrafBarras();
+
+    @Query(value=
+            "SELECT\n" +
+                    "\tespecialidad.id_especialidad AS codigoEspecialidad,\n" +
+                    "\tconsulta.fecha_consulta AS fechaConsulta,\n" +
+                    "\tconsulta.hora_consulta AS horaConsulta,\n" +
+                    "\tconsulta.num_consultorio AS numConsultorio,\n" +
+                    "\tespecialidad.nombre_especiadad AS nombreEspecialidad,\n" +
+                    "\tconcat_ws( ' ', medico.nombre_medico, medico.apellido_medico ) AS nombreCompletoMedico,\n" +
+                    "\tconcat_ws( ' ', paciente.nombre_paciente, paciente.apellido_paciente ) AS nombreCompletoPaciente \n" +
+                    "FROM\n" +
+                    "\tconsulta\n" +
+                    "\tINNER JOIN especialidad ON consulta.id_especialidad = especialidad.id_especialidad\n" +
+                    "\tINNER JOIN medico ON consulta.id_medico = medico.id_medico\n" +
+                    "\tINNER JOIN paciente ON consulta.id_paciente = paciente.id_paciente \n" +
+                    "HAVING\n" +
+                    "\tnum_consultorio=:numConsultorioParam", nativeQuery = true
+    )
+    List<IConsMedicoDtoRep> numConsultorip(int numConsultorioParam);
+
 }
 

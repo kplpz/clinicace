@@ -1,4 +1,4 @@
-package com.ues.clinicace.dtos;
+package com.ues.clinicace.reportesDtos;
 
 public interface IConsMedicoDtoRep {
     String getNombreCompletoPaciente();

@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController {
@@ -91,5 +93,15 @@ public class PacienteController {
         response.setHeader(headerKey, headerValue);
         reportesServiceEXCEL.generateExcel(response);
         response.flushBuffer();
+    }
+
+    @GetMapping("/pdfPaciente")
+    public void pdfPaciente(ModelAndView model, HttpServletResponse response) throws IOException{
+        this.servicioPaciente.generarReportePaciente(response);
+    }
+
+    @GetMapping("/pdf/linea")
+    public void pdfCantidadMedxEspe(ModelAndView model, HttpServletResponse response) throws IOException {
+        this.servicioPaciente.generarReportePorConsultaLine(response);
     }
 }

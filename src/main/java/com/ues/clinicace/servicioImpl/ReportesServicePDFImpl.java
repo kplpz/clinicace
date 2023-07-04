@@ -30,6 +30,28 @@ public class ReportesServicePDFImpl<T> implements IReportesServicePDF<T> {
             final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(data);
             final Map<String, Object> parameters = new HashMap<>();
             parameters.put("createdBy", "Admin");
+            /*******Para logo*********/
+            final File imgLogo = ResourceUtils.getFile("classpath:images/logobufmpues.jpg");
+
+            parameters.put("imgLogo", new FileInputStream(imgLogo));
+            final JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, source);
+            response.setContentType("application/x-pdf");
+            response.setHeader("Content-disposition", "inline; filename=App_report_en.pdf");
+            final OutputStream outStream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void generarReporteParam(InputStream stream, HttpServletResponse response, List<T> data) throws IOException {
+        // TODO Auto-generated method stub
+        try {
+            final JasperReport report = JasperCompileManager.compileReport(stream);
+            final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(data);
+            final Map<String, Object> parameters = new HashMap<>();
+            parameters.put("createdBy", "Admin");
 
             /**************************************************/
             //CON PARAMETROS DE idEspecialidad y fechaConsulta
@@ -49,4 +71,30 @@ public class ReportesServicePDFImpl<T> implements IReportesServicePDF<T> {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void generarReportenumConsultorioParam(InputStream stream, HttpServletResponse response, List<T> data) throws IOException {
+        try {
+            final JasperReport report = JasperCompileManager.compileReport(stream);
+            final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(data);
+            final Map<String, Object> parameters = new HashMap<>();
+            parameters.put("createdBy", "Admin");
+
+            /**************************************************/
+            final File imgLogo = ResourceUtils.getFile("classpath:images/logobufmpues.jpg");
+            parameters.put("numConsultorio", "numConsultorio");
+            parameters.put("imgLogo", new FileInputStream(imgLogo));
+
+
+
+            final JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, source);
+            response.setContentType("application/x-pdf");
+            response.setHeader("Content-disposition", "inline; filename=App_report_en.pdf");
+            final OutputStream outStream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

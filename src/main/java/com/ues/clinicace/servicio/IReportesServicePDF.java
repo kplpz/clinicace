@@ -10,6 +10,8 @@ import java.util.List;
 public interface IReportesServicePDF<T> {
 
     void generarReporte(InputStream stream, HttpServletResponse response, List<T> data) throws IOException;
+    void generarReporteParam(InputStream stream, HttpServletResponse response, List<T> data) throws IOException;
+    void generarReportenumConsultorioParam(InputStream stream, HttpServletResponse response, List<T> data) throws IOException;
 
 
 }

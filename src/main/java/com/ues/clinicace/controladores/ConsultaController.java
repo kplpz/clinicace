@@ -170,14 +170,23 @@ public class ConsultaController {
             }
             return new ResponseEntity<ConsultaDTO>(consultaDTO, HttpStatus.OK);
         }*/
-        @GetMapping( "/pdf")
+        @GetMapping( "/pdfparam")
     private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response,
         @RequestParam int idEspecialidadParam, @RequestParam String fechaConsultaParam) throws IOException{
-        this.consultaService.generarReportePorConsulta(response, idEspecialidadParam, fechaConsultaParam);
+        this.consultaService.generarReportePorConsultaParam(response, idEspecialidadParam, fechaConsultaParam);
         }
+    @GetMapping( "/pdf")
+    private void listConsultaMedicasxEspecialidadPdf(ModelAndView model, HttpServletResponse response) throws IOException{
+        this.consultaService.generarReportePorConsulta(response);
+    }
     @GetMapping( "report/pdf")
     private  void consultaCantidad(ModelAndView model, HttpServletResponse response) throws Exception {
             this.consultaService.generarReportePorConsultaGraficoBarra(response);
     }
 
+    @GetMapping( "/pdfNumConsultorio")
+    private void numConsultorioParam(ModelAndView model, HttpServletResponse response,
+                                                     @RequestParam int numConsultorioParam) throws IOException{
+        this.consultaService.generarReportePornumConsultaParam(response, numConsultorioParam);
+    }
 }

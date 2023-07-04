@@ -3,20 +3,26 @@ package com.ues.clinicace.servicioImpl;
 import com.ues.clinicace.modelo.Medico;
 import com.ues.clinicace.repositorios.IMedicoRepo;
 import com.ues.clinicace.servicio.IMedicoService;
+import com.ues.clinicace.servicio.IReportesServicePDF;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
 public class MedicoServiceImpl implements IMedicoService {
 
     private final IMedicoRepo servicioMedico;
+    private final IReportesServicePDF servicioReportes;
 
     @Autowired
-    public MedicoServiceImpl(IMedicoRepo servicioMedico) {
+    public MedicoServiceImpl(IMedicoRepo servicioMedico, IReportesServicePDF servicioReportes) {
         // TODO Auto-generated constructor stub
         this.servicioMedico = servicioMedico;
+        this.servicioReportes = servicioReportes;
     }
 
     @Override
@@ -56,6 +62,18 @@ public class MedicoServiceImpl implements IMedicoService {
             return false;
         }
 
+    }
+
+    @Override
+    public void generarReportePorConsultaPie(HttpServletResponse response) throws IOException {
+    final InputStream stream = this.getClass().getResourceAsStream("/reports/MedicosxEspecialidad.jrxml");
+    this.servicioReportes.generarReporte(stream, response, servicioMedico.cantidadMedicoxEspePie());
+    }
+
+    @Override
+    public void generarReporteMedicos(HttpServletResponse response) throws IOException {
+        final InputStream stream = this.getClass().getResourceAsStream("/reports/PacienteRepo.jrxml");
+        this.servicioReportes.generarReporte(stream, response, listar());
     }
     /*@Override
     public List<Medico> buscarMedico(String filtro) {

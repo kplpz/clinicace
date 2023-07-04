@@ -3,6 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ConsultaMedicaEspecifica" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0e4231e2-ef6f-4fa9-8cd8-11a55e1d119c">
 <!--	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapterClinica.jrdax"/>-->
+
 	<parameter name="imgLogo" class="java.io.InputStream"/>
 	<parameter name="idEspecialidadParam" class="java.lang.Integer"/>
 	<parameter name="fechaConsultaParam" class="java.lang.String"/>

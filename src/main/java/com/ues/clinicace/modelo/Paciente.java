@@ -28,6 +28,12 @@ public class Paciente {
     private String telefonoPaciente;
     @Column(name = "email_paciente", nullable = true, length = 25)
     private String emailPaciente;
+
+
+    public String getNombreCompletoPaciente(){
+        return  this.nombrePaciente != null && this.apellidoPaciente != null ?
+                this.nombrePaciente + " " + this.apellidoPaciente: "------";
+    }
 }
 
 
