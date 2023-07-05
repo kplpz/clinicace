@@ -46,7 +46,7 @@ public class ConsultaController {
         this.pacienteService = pacienteService;
     }
     @GetMapping
-    public ResponseEntity<List<Consulta>> mostrarMedicos() {
+    public ResponseEntity<List<Consulta>> mostrarConsulta() {
         List<Consulta> consultas = this.consultaService.listar();
         return new ResponseEntity<List<Consulta>>(consultas, HttpStatus.OK);
     }
