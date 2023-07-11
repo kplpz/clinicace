@@ -103,6 +103,7 @@ public class ConsultaController {
             this.consulta.setFechaConsulta(consultaDtoIN.getFechaConsulta());
             this.consulta.setHoraConsulta(consultaDtoIN.getHoraConsulta());
             this.consulta.setNumConsultorio(consultaDtoIN.getNumConsultorio());
+            this.consulta.setDetalleConsulta(consultaDtoIN.getDetalleConsulta());
 
             if (consultaDtoIN.getDetalleConsulta().size() > 0) {
                 consultaDtoIN.getDetalleConsulta().stream().peek(d -> d.setConsulta(consulta))
@@ -160,6 +161,7 @@ public class ConsultaController {
                 this.especialidad = new Especialidad();
                 this.paciente = new Paciente();
                 this.consulta = new Consulta();
+                this.consulta.setIdConsulta(consultaDtoIN.getIdConsulta());
                 this.consulta.setMedico(this.medicoService.leerPorId(consultaDtoIN.getIdMedico()));
                 this.consulta.setEspecialidad(this.especialidadService.leerPorId(consultaDtoIN.getIdEspecialidad()));
                 this.consulta.setPaciente((this.pacienteService.leerPorId(consultaDtoIN.getIdPaciente())));
