@@ -46,7 +46,8 @@ public class PacienteServiceImpl implements IPacienteService {
     @Override
     public Paciente leerPorId(Integer id) {
         // TODO Auto-generated method stub
-        return this.servicioPaciente.findById(id).get();
+        /*return this.servicioPaciente.findById(id).get();*/
+        return this.servicioPaciente.findById(id).orElse(new Paciente());
     }
 
     @Override

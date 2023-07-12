@@ -1,5 +1,6 @@
 package com.ues.clinicace.controladores;
 
+import com.ues.clinicace.exceptions.ModeloNotFoundException;
 import com.ues.clinicace.modelo.GenericResponse;
 import com.ues.clinicace.modelo.Medico;
 import com.ues.clinicace.modelo.Paciente;
@@ -37,6 +38,9 @@ public class PacienteController {
     @GetMapping("/paciente/{idPaciente}")
     public ResponseEntity<Paciente> pacienteById(@PathVariable("idPaciente") Integer idPaciente){
         Paciente paciente= this.servicioPaciente.leerPorId(idPaciente);
+        if(paciente.getIdPaciente() == null){
+            throw new ModeloNotFoundException("Paciente no encontrado");
+        }
         return new ResponseEntity<Paciente>(paciente,HttpStatus.OK);
     }
 

@@ -17,33 +17,36 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> manejarTodasExcepciones(ModeloNotFoundException ex,
-                                                                           WebRequest request) {
-        ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<ExceptionResponse>(er, HttpStatus.INTERNAL_SERVER_ERROR);
+    public final ResponseEntity<ExceptionResponse>
+    manejarTodasExcepciones(ModeloNotFoundException ex, WebRequest request) {
+        ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(),
+                ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<ExceptionResponse>(er,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(ModeloNotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> manejarModeloException(ModeloNotFoundException ex,
-                                                                          WebRequest request) {
+    public final ResponseEntity<ExceptionResponse>
+    manejarModeloException(ModeloNotFoundException ex, WebRequest request) {
         ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<ExceptionResponse>(er, HttpStatus.NOT_FOUND);
     }
+
     /*@Override*/
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(),
-                request.getDescription(false));
+    protected ResponseEntity<Object>
+    handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                 HttpHeaders headers,
+                                 HttpStatus status, WebRequest request) {
+        ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(),
+                ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<Object>(er, HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<?> invalidDataException(InvalidDataException ex, WebRequest
             request) {
         List<FieldError> errors = ex.getResult().getFieldErrors();
         for (FieldError error : errors) {
-            logger.error("Filed Name ::: " + error.getField() + "Error Message :::" + error.getDefaultMessage());
+            logger.error("Filed Name ::: " + error.getField() + "Error Message" + error.getDefaultMessage());
         }
         return CommonErrorHandler.fieldErrorResponse("Error",
                 CommonErrorHandler.getFieldErrorResponse(ex.getResult()));

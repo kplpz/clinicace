@@ -28,7 +28,12 @@ public class Paciente {
     private String telefonoPaciente;
     @Column(name = "email_paciente", nullable = true, length = 25)
     private String emailPaciente;
-
+    @Column(name = "fecha_nacimiento_paciente", nullable = true, length = 25)
+    private String fechaNacimiento;
+    @Column(name = "tiene_expediente_paciente", nullable = true, length = 25)
+    private String tieneExpediente;
+    @Column(name = "fecha_vencimiento_dui_paciente", nullable = true, length = 25)
+    private String fechaVencimientoDui;
 
     public String getNombreCompletoPaciente(){
         return  this.nombrePaciente != null && this.apellidoPaciente != null ?
